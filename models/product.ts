@@ -1,4 +1,4 @@
-import mongoose, { isValidObjectId } from "mongoose";
+import mongoose from "mongoose";
 import { ProductType } from "../interface";
 
 const { Schema } = mongoose;
