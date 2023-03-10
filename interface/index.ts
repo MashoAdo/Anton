@@ -19,3 +19,9 @@ export interface ProductType extends Document {
 export interface TaskInterface {
   run(...args: any): any;
 }
+
+export interface UserInterface {
+  name?: string;
+  email: string;
+  password: string;
+}
