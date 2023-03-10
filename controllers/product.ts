@@ -1,4 +1,6 @@
 import { Response, Request, Router } from "express";
+import { SUCCESS_MESSAGE } from "../config/api-response";
+import { ProductType } from "../interface";
 import Product from "../models/product";
 import CreateProduct from "../Tasks/create-product";
 
@@ -16,15 +18,14 @@ router
   .post(async (req: Request, res: Response) => {
     const { name, description, price, discount_price, rating, in_stock, sellers } = req.body;
 
-    const product = new Product({ name, description, price, discount_price, rating, in_stock, sellers });
+    const product: ProductType = new Product({ name, description, price, discount_price, rating, in_stock, sellers });
 
     try {
       product.validate();
-      console.log("after-validate:", product);
 
       const createdProduct = await new CreateProduct().run(product);
 
-      res.status(201).json({ product: createdProduct });
+      res.status(201).json({ product: createdProduct, success: true, success_message: SUCCESS_MESSAGE.PRODUCT_SUCCESSFULLY_CREATED });
     } catch (err) {
       //Type assertion
       const error = err as Error;
