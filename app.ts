@@ -4,7 +4,7 @@ import Logger from "./middleware/logger";
 import { mongoDBConnect } from "./database/connect-db";
 import allRoutes from "./routes/index";
 import { apiBaseUrl } from "./config/constants";
-import Auth from "./middleware/auth";
+
 // initialize express
 const app: Express = express();
 
@@ -24,9 +24,6 @@ app.use(Logger);
 app.get("/", (req: Request, res: Response) => {
   res.send("Server Check");
 });
-
-//add auth middleware
-app.use(Auth);
 
 app.use(apiBaseUrl, allRoutes);
 
