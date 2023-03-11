@@ -12,7 +12,7 @@ export default class LoginTask implements TaskInterface {
 
     const secret = process.env.ACCESS_TOKEN_SECRET!;
 
-    const token = jwt.sign(user, secret);
+    const token = jwt.sign({ email, password }, secret, { expiresIn: 60 });
 
     await new User(user).save();
 
@@ -26,18 +26,12 @@ export default class LoginTask implements TaskInterface {
     await user.validate();
 
     //check if user exists in db
-    User.findOne({ email }, (err: any, user: UserInterface) => {
-      if (err) {
-        throw new Error(err);
-      }
+    const found_user = await User.findOne({ email });
 
-      if (user) {
-        console.log(`User exists email:`, email);
-      } else {
-        throw new Error("User does not exists");
-      }
-    });
+    if (!found_user) {
+      throw new Error("User does not exist");
+    }
 
-    return user;
+    return found_user;
   }
 }
