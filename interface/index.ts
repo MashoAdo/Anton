@@ -1,4 +1,5 @@
-import { Document, ObjectId } from "mongoose";
+import { Document } from "mongoose";
+import { Request } from "express";
 
 export interface ProductType extends Document {
   name: string;
@@ -24,4 +25,8 @@ export interface UserInterface {
   name?: string;
   email: string;
   password: string;
+}
+
+export interface AuthenticatedRequest extends Request {
+  user?: any;
 }
