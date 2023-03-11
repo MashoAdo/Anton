@@ -3,6 +3,7 @@ import User from "../models/user";
 import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
+import { TOKEN_EXPIRY } from "../config/constants";
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ export default class LoginTask implements TaskInterface {
 
     const secret = process.env.ACCESS_TOKEN_SECRET!;
 
-    const token = jwt.sign({ email, password }, secret, { expiresIn: 60 });
+    const token = jwt.sign({ email, password }, secret, { expiresIn: TOKEN_EXPIRY });
 
     await new User(user).save();
 
