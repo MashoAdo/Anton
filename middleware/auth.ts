@@ -1,12 +1,27 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { AuthenticatedRequest } from "../interface";
 
-export default async function (req: Request, res: Response, next: NextFunction) {
-  const token = req.headers["authorization"]?.split(" ")[1];
+async function AuthMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const auth_header = req.headers.authorization;
+  const token = auth_header?.split(" ")[1];
 
-  if (token) {
-    console.log("Client authorized");
-    next();
+  if (!token) {
+    res.status(401).send("Client unauthorized");
+    return;
   }
-  res.status(401).send("Client unauthorized");
-  throw new Error("Client unauthorized");
+
+  const secret = process.env.ACCESS_TOKEN_SECRET!;
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded;
+
+    console.log("Request Authorized");
+    next();
+  } catch (err) {
+    res.status(401).send({ message: "Invalid token" });
+  }
 }
+
+export default AuthMiddleware;
