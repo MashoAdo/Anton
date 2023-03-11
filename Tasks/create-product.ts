@@ -3,7 +3,7 @@ import Product from "../models/product";
 
 export default class CreateProduct implements TaskInterface {
   public async run(data: ProductType): Promise<ProductType> {
-    const product = await new Product(data).save();
+    const product: ProductType = await new Product(data).save({ timestamps: true, validateBeforeSave: true });
 
     return product;
   }
