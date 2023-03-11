@@ -1,13 +1,7 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import env from "../config/env";
 
-dotenv.config();
-
-const uri = process.env.MONGOOSE_URI || "mongodb://localhost:27017/mydb";
-
-if (!uri) {
-  throw new Error("MONGOOSE_URI environment variable not set");
-}
+const uri = env.mongoDBConfig.uri!;
 
 export async function mongoDBConnect() {
   try {

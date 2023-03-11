@@ -2,6 +2,7 @@ import { TaskInterface, UserInterface } from "../interface";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
 import { TOKEN_EXPIRY } from "../config/constants";
+import env from "../config/env";
 
 export default class RegisterUserTask implements TaskInterface {
   public async run(payload: UserInterface) {
@@ -15,7 +16,7 @@ export default class RegisterUserTask implements TaskInterface {
       }
     });
 
-    const secret = process.env.ACCESS_TOKEN_SECRET!;
+    const secret = env.jwtAccessSecret.secret!;
 
     try {
       const token = jwt.sign({ email, password }, secret, { expiresIn: TOKEN_EXPIRY });

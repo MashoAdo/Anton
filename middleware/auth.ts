@@ -1,5 +1,6 @@
 import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import env from "../config/env";
 import { AuthenticatedRequest } from "../interface";
 
 async function AuthMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
@@ -11,7 +12,7 @@ async function AuthMiddleware(req: AuthenticatedRequest, res: Response, next: Ne
     return;
   }
 
-  const secret = process.env.ACCESS_TOKEN_SECRET!;
+  const secret = env.jwtAccessSecret.secret!;
 
   try {
     const decoded = jwt.verify(token, secret);

@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
 import { TOKEN_EXPIRY } from "../config/constants";
+import env from "../config/env";
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ export default class LoginTask implements TaskInterface {
   public async run({ email, password }: UserInterface) {
     const user = await this.extraValidate({ email, password });
 
-    const secret = process.env.ACCESS_TOKEN_SECRET!;
+    const secret = env.jwtAccessSecret.secret!;
 
     const token = jwt.sign({ email, password }, secret, { expiresIn: TOKEN_EXPIRY });
 
