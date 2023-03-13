@@ -29,7 +29,6 @@ router.post("/register", async (req: Request, res: Response) => {
   const payload = req.body;
 
   try {
-    console.log("payload :", payload);
     const token = await new RegisterUserTask().run(payload);
 
     res.status(200).json({ success: true, success_message: SUCCESS_MESSAGE.USER_REGISTERED_SUCCESSFULLY, token });
