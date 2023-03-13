@@ -56,9 +56,9 @@ router
     const payload = req.body;
 
     try {
-      const updated = await new UpdateProduct().run({ id, ...payload });
+      await new UpdateProduct().run({ id, ...payload });
 
-      return res.status(201).json({ success: true, success_message: SUCCESS_MESSAGE.PRODUCT_UPDATED, product: updated });
+      return res.status(201).json({ success: true, success_message: SUCCESS_MESSAGE.PRODUCT_UPDATED });
     } catch (err) {
       const error = err as Error;
 
