@@ -3,7 +3,6 @@ import cors from "cors";
 import Logger from "./middleware/logger";
 import { mongoDBConnect } from "./database/connect-db";
 import allRoutes from "./routes/index";
-import { apiBaseUrl } from "./config/constants";
 
 // initialize express
 const app: Express = express();
@@ -25,6 +24,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Server Check");
 });
 
-app.use(apiBaseUrl, allRoutes);
+app.use("/api/v1", allRoutes);
 
 export default app;
