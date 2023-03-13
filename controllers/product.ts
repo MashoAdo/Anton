@@ -11,8 +11,15 @@ import UpdateProduct from "../Tasks/update-product";
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const products = await new ListProducts().run();
-  res.status(200).json({ success: true, success_message: SUCCESS_MESSAGE.PRODUCT_LIST, products });
+  try {
+    const products = await new ListProducts().run();
+
+    res.status(200).json({ success: true, success_message: SUCCESS_MESSAGE.PRODUCT_LIST, products });
+  } catch (err) {
+    const error = err as Error;
+
+    res.status(400).json({ success: false, success_message: SUCCESS_MESSAGE.PRODUCT_LISTING_FAILED, error: error.message });
+  }
 });
 
 router
@@ -22,9 +29,12 @@ router
 
     try {
       const product = await new GetProductDetails().run(product_id);
+
       res.status(200).json({ success: true, success_message: SUCCESS_MESSAGE.PRODUCT_DETAILS, product });
-    } catch (error) {
-      res.status(400).json({ success: false, success_message: SUCCESS_MESSAGE.PRODUCT_DETAILS_FAILED, error });
+    } catch (err) {
+      const error = err as Error;
+
+      res.status(400).json({ success: false, success_message: SUCCESS_MESSAGE.PRODUCT_DETAILS_FAILED, error: error.message });
     }
   })
   .post(async (req: Request, res: Response) => {
@@ -47,18 +57,25 @@ router
 
     try {
       const updated = await new UpdateProduct().run({ id, ...payload });
+
       return res.status(201).json({ success: true, success_message: SUCCESS_MESSAGE.PRODUCT_UPDATED, product: updated });
-    } catch (error) {
-      return res.status(400).json({ success: false, success_message: SUCCESS_MESSAGE.FAILED_UPDATING_PRODUCT, error });
+    } catch (err) {
+      const error = err as Error;
+
+      return res.status(400).json({ success: false, success_message: SUCCESS_MESSAGE.FAILED_UPDATING_PRODUCT, error: error.message });
     }
   })
   .delete(async (req: Request, res: Response) => {
     const id = req.params.id;
+
     try {
       await new DeleteProduct().run(id);
+
       res.status(200).json({ success: true, success_message: SUCCESS_MESSAGE.PRODUCT_DELETED });
-    } catch (error) {
-      res.status(400).json({ success: false, success_message: SUCCESS_MESSAGE.FAILED_DELETING_PRODUCT });
+    } catch (err) {
+      const error = err as Error;
+
+      res.status(400).json({ success: false, success_message: SUCCESS_MESSAGE.FAILED_DELETING_PRODUCT, error: error.message });
     }
   });
 
