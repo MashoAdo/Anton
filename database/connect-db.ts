@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import env from "../config/env";
 
-const uri = env.mongoDBConfig.uri!;
+const uri = env.mongoDBUri!;
 
 export async function mongoDBConnect() {
   try {

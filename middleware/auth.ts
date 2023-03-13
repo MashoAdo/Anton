@@ -12,7 +12,7 @@ async function AuthMiddleware(req: AuthenticatedRequest, res: Response, next: Ne
     return;
   }
 
-  const secret = env.jwtAccessSecret.secret!;
+  const secret = env.jwtAccessSecret!;
 
   try {
     const decoded = jwt.verify(token, secret);

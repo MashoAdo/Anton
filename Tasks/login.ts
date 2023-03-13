@@ -12,7 +12,7 @@ export default class LoginTask implements TaskInterface {
   public async run({ email, password }: UserInterface) {
     const user = await this.extraValidate({ email, password });
 
-    const secret = env.jwtAccessSecret.secret!;
+    const secret = env.jwtAccessSecret!;
 
     const token = jwt.sign({ email, password }, secret, { expiresIn: TOKEN_EXPIRY });
 

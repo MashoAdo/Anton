@@ -16,7 +16,7 @@ export default class RegisterUserTask implements TaskInterface {
       }
     });
 
-    const secret = env.jwtAccessSecret.secret!;
+    const secret = env.jwtAccessSecret!;
 
     try {
       const token = jwt.sign({ email, password }, secret, { expiresIn: TOKEN_EXPIRY });
